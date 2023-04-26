@@ -1,0 +1,33 @@
+---
+# bash_aliases/tasks/main.yml
+
+- name: 'Set primary group to users on SUSE/openSUSE'
+  ansible.builtin.set_fact:
+    primary_group_name: 'users'
+  when: '
+    ansible_distribution == "SLES" or
+    ansible_distribution == "openSUSE Leap" or
+    ansible_distribution == "openSUSE MicroOS" or
+    ansible_distribution == "openSUSE Tumbleweed"
+    '
+
+- name: 'Create .alias for root'
+  ansible.builtin.template:
+    src: 'alias.j2'
+    dest: '/root/.alias'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when:
+    - alias_for_root | bool
+
+- name: 'Create .alias for other users (if any are supplied)'
+  ansible.builtin.template:
+    src: 'alias.j2'
+    dest: "/home/{{ item }}/.alias"
+    owner: "{{ item }}"
+    group: "{{ primary_group_name | default(item) }}"
+    mode: '0644'
+  with_items:
+    - "{{ additional_users }}"
+  when: 'additional_users is defined'
