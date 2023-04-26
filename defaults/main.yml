@@ -1,4 +1,18 @@
 ---
 # bash_aliases/defaults/main.yml
 
+# Create .alias file for root?
 alias_for_root: true
+
+# Which aliases should be enabled?
+enable_zypper_aliases: true
+enable_aptget_aliases: true
+enable_ansible_aliases: true
+enable_git_aliases: true
+enable_kubectl_aliases: true
+enable_kubie_aliases: true
+enable_kubeseal_aliases: true
+enable_buildservice_aliases: true
+enable_journalctl_aliases: true
+enable_terraform_aliases: true
+enable_lxc_aliases: true
