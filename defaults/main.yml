@@ -1,0 +1,4 @@
+---
+# bash_aliases/defaults/main.yml
+
+alias_for_root: true
