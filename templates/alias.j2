@@ -1,0 +1,191 @@
+{% if enable_zypper_aliases | bool %}
+####################################################
+# openSUSE/SUSE
+#
+alias ZYPPER='/usr/bin/sudo zypper ref && /usr/bin/sudo zypper dup'
+alias ZYPPER_DOWNLOAD='/usr/bin/sudo /usr/bin/zypper ref && /usr/bin/sudo /usr/bin/zypper dup -d -y && /usr/bin/sudo /usr/bin/zypper dup --auto-agree-with-licenses'
+alias ZYPPER_LOG='sudo cut -d "|" -f 1-4 -s --output-delimiter " | " /var/log/zypp/history | grep -v " radd "'
+alias ZYPPER_REF="/usr/bin/sudo /usr/bin/zypper ref"
+alias ZYPPER_UP="/usr/bin/sudo zypper ref && /usr/bin/sudo /usr/bin/zypper up"
+alias ZYPPER_UP_DOWNLOAD="/usr/bin/sudo zypper ref && /usr/bin/sudo /usr/bin/zypper up -d"
+alias ZYPPER_DUP="/usr/bin/sudo zypper ref && /usr/bin/sudo /usr/bin/zypper dup"
+alias ZYPPER_DUP_DOWNLOAD="/usr/bin/sudo zypper ref && /usr/bin/sudo /usr/bin/zypper dup -d"
+alias ZYPPER_UP_ANSIBLE_ZEUG="/usr/bin/sudo zypper ref && /usr/bin/sudo zypper up ansible ansible-core ansible-lint ansible-test ansible-sign ansible-builder ansible-runner"
+
+{% endif %}
+{% if enable_aptget_aliases | bool %}
+####################################################
+# Debian/Ubuntu
+#
+alias APT_GET_UPDATE_AND_UPGRADE='/usr/bin/sudo /usr/bin/apt-get update && /usr/bin/sudo /usr/bin/apt-get upgrade'
+
+{% endif %}
+{% if enable_ansible_aliases | bool %}
+###################################
+# Ansible
+alias ap='clear;ansible-playbook -v'
+alias apCD='clear;ansible-playbook -v --check --diff'
+alias av='clear;ansible-vault edit'
+alias avc='ansible-vault create'
+alias al='clear;ansible-lint --offline --profile=production --exclude="*_encrypted.y*ml"'
+
+{% endif %}
+{% if enable_git_aliases | bool %}
+###################################################
+# git
+alias g='git status'
+alias g.='git status .'
+alias ga='git add'
+alias ga.='git add .'
+alias gap='clear; git add -p'
+alias gbr='git branch'
+alias gbrd='git branch -d'
+alias gbra='git branch -a'
+alias gci='git commit'
+alias gcia='git commit --amend --no-edit'
+alias gciae='git commit --amend --edit'
+alias gcim='git commit -m'
+alias gcims='git commit -s -m'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gcp='git cherry-pick'
+alias gd='clear; git diff'
+alias gd.='clear; git diff .'
+alias gdc='clear; git diff --cached'
+alias gf='git fetch --all && git status && git merge --ff-only'
+alias glg="log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias gm='git merge --no-edit'
+alias gme='git merge --edit'
+alias gmff='git merge --ff-only --no-edit'
+alias gmnf='git merge --no-ff --no-edit'
+alias gp='git push'
+alias gpdo='git push --delete origin'
+alias gpf='git push --force-with-lease'
+alias gpu='git push --set-upstream'
+alias gre='git rebase'
+alias grem='git rebase main'
+alias grei='git rebase -i'
+alias greim='git rebase -i main'
+alias grec='git rebase --continue'
+alias grea='git rebase --abort'
+alias grefs='git rebase -f --signoff'
+alias gres='git rebase --skip'
+alias greh='git reset HEAD'
+alias greh.='git reset HEAD .'
+alias gsa='git submodule add'
+
+{% endif %}
+{% if enable_kubectl_aliases | bool %}
+###################################################
+# kubectl
+#
+alias k='kubectl'
+alias kaf='kubectl apply -f'
+alias kd='kubectl describe'
+alias kdf='kubectl delete -f'
+alias kdno='kubectl describe nodes'
+alias kdns='kubectl describe namespaces'
+alias kdpo='kubectl describe pods'
+alias keit='kubectl exec -i -t'
+alias kex='kubectl exec -i -t'
+alias kg='kubectl get'
+alias kga='kubectl get all'
+alias kgd='kubectl get deploy'
+alias kgi='kubectl get ingress'
+alias kgno='kubectl get nodes'
+alias kgns='kubectl get namespaces'
+alias kgow='kubectl get -o=wide'
+alias kgoy='kubectl get -o=yaml'
+alias kgpo='kubectl get pods'
+alias kgpoa='kubectl get pods -A'
+alias kgpoaw='watch -n 2 kubectl get pods -A'
+alias kgs='kubectl get service'
+alias klo='kubectl logs'
+alias klof='kubectl logs -f'
+alias kp='kubectl proxy'
+alias krm='kubectl delete'
+alias krmpo='kubectl delete pods'
+alias wkg='watch kubectl get'
+
+# https://www.studytonight.com/post/how-to-list-all-resources-in-a-kubernetes-namespace
+function kubegetall {
+  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+    echo "Resource:" $i
+    kubectl -n ${1} get --ignore-not-found ${i}
+  done
+}
+
+{% endif %}
+{% if enable_kubie_aliases | bool %}
+# kubie
+alias kcc='kubie ctx'
+alias kccf='kubie ctx -f'
+alias ns='kubie ns'
+
+{% endif %}
+{% if enable_kubeseal_aliases | bool %}
+# kubeseal / sealed-secrets
+alias kubeseal='kubeseal --controller-name=sealed-secrets --controller-namespace=sealed-secrets --format yaml'
+
+{% endif %}
+{% if enable_buildservice_aliases | bool %}
+###################################################
+# openSUSE Buildservice
+#
+alias osd='osc service disabledrun'
+
+# Build aliases with cleaning
+alias OSC_BUILD_Tumbleweed='osc build --clean openSUSE_Tumbleweed x86_64'
+alias OSC_BUILD_Factory='osc build --clean openSUSE_Factory x86_64'
+alias OSC_BUILD_Leap_15_4='osc build --clean openSUSE_Leap_15.4 x86_64'
+alias OSC_BUILD_Leap_15_4_Update='osc build --clean openSUSE_Leap_15.4_Update x86_64'
+alias OSC_BUILD_Leap_15_5='osc build --clean openSUSE_Leap_15.5 x86_64'
+alias OSC_BUILD_Leap_15_5_Update='osc build --clean openSUSE_Leap_15.5_Update x86_64'
+
+# without cleaning up first
+alias oscbo='osc build openSUSE_Tumbleweed x86_64'
+alias OSC_BUILD_Tumbleweed_without_clean='osc build openSUSE_Tumbleweed x86_64'
+alias OSC_BUILD_Factory_without_clean='osc build openSUSE_Factory x86_64'
+alias OSC_BUILD_Leap_15_4_without_clean='osc build openSUSE_Leap_15.4 x86_64'
+alias OSC_BUILD_Leap_15_4_Update_without_clean='osc build openSUSE_Leap_15.4_Update x86_64'
+alias OSC_BUILD_Leap_15_5_without_clean='osc build openSUSE_Leap_15.5 x86_64'
+alias OSC_BUILD_Leap_15_5_Update_without_clean='osc build openSUSE_Leap_15.5_Update x86_64'
+
+# new repos for SLES/Leap
+alias OSC_BUILD_15.3='osc build --clean 15.3 x86_64'
+alias OSC_BUILD_15.4='osc build --clean 15.4 x86_64'
+alias OSC_BUILD_15.5='osc build --clean 15.5 x86_64'
+alias OSC_BUILD_15.3_without_clean='osc build 15.3 x86_64'
+alias OSC_BUILD_15.4_without_clean='osc build 15.4 x86_64'
+alias OSC_BUILD_15.5_without_clean='osc build 15.5 x86_64'
+
+{% endif %}
+{% if enable_journalctl_aliases | bool %}
+###################################################
+# Journalctl und Co
+#
+alias JOURNALCTL_='sudo journalctl -xl -b -f'
+alias JOURNALCTL_DNSMASQ='/usr/bin/sudo /usr/bin/journalctl -xl -b -f -u dnsmasq.service'
+alias JOURNALCTL_LIBVIRTD='/usr/bin/sudo /usr/bin/journalctl -xl -b -f -u libvirtd.service'
+alias JOURNALCTL_LXC='/usr/bin/sudo /usr/bin/journalctl -xl -b -f -u lxc.service'
+alias JOURNALCTL_NETWORKMANAGER='/usr/bin/sudo /usr/bin/journalctl -xl -b -f -u NetworkManager.service'
+alias JOURNALCTL_POSTFIX='sudo journalctl -xl -b -f -u postfix.service'
+alias JOURNALCTL_SSHD='sudo journalctl -xl -b -f -u sshd.service'
+
+{% endif %}
+{% if enable_terraform_aliases | bool %}
+###################################################
+# Terraform aliases
+#
+alias TERRAFORM_CHECK_AND_PLAN='clear;git submodule init && git submodule update && rm -rvf .terraform/ && terraform init && terraform validate && terraform plan'
+alias TERRAFORM_CHECK_AND_PLAN_AND_APPLY='clear;git submodule init && git submodule update && rm -rvf .terraform/ && terraform init && terraform validate && terraform plan && terraform apply'
+
+
+{% endif %}
+{% if enable_lxc_aliases | bool %}
+###################################
+# LXC
+#
+alias LXC_LS_FANCY='sudo lxc-ls --fancy'
+
+{% endif %}
